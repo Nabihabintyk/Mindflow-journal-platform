@@ -1,0 +1,146 @@
+/* Card Container */
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between cards */
+}
+
+.entry-card {
+  border: 1px solid var(--color-border);
+  padding: 25px;
+  border-radius: 10px;
+  background-color: var(--color-card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle individual card shadow */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.entry-card:hover {
+  transform: translateY(-3px); /* Lifts the card slightly on hover */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Header (Title and Buttons) */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.entry-card h3 {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+/* Date and Content */
+.entry-date {
+  font-size: 0.85em;
+  color: #999;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.entry-card p {
+  margin-bottom: 10px;
+}
+
+/* Sentiment Display */
+.sentiment {
+  font-weight: 700;
+  margin-top: 15px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: inline-block; /* Keeps background tight to text */
+}
+
+.sentiment.positive {
+  color: #2f855a; /* Darker green */
+  background-color: #f0fff4; /* Very light green background */
+}
+
+.sentiment.negative {
+  color: #c53030; /* Darker red */
+  background-color: #fff5f5; /* Very light red background */
+}
+
+.sentiment.neutral {
+  color: #d69e2e; /* Darker amber */
+  background-color: #fffff0; /* Very light yellow background */
+}
+
+/* --- Action Buttons (Edit/Delete) --- */
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.card-actions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.edit-button {
+  background-color: #ffc107;
+  color: #333;
+}
+.edit-button:hover {
+  background-color: #e0a800;
+}
+
+.delete-button {
+  background-color: #e53e3e; /* Red */
+  color: white;
+}
+.delete-button:hover {
+  background-color: #c53030;
+}
+
+/* --- Edit Mode Form --- */
+
+.entry-card input[type="text"],
+.entry-card textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.save-edit-button {
+  background-color: #48bb78; /* Primary Green */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-edit-button {
+  background-color: #a0aec0; /* Gray */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}

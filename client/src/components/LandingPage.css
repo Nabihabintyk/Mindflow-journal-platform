@@ -1,0 +1,110 @@
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 85vh; /* Takes up most of the viewport height */
+  padding: 20px;
+  position: relative; /* Context for absolute positioning of neural elements */
+  overflow: hidden; /* Ensure elements don't show outside */
+}
+
+.landing-page h1 {
+  font-size: 3.5em; /* Larger title */
+  margin-top: 40px;
+  color: var(--color-secondary);
+  z-index: 10;
+  position: relative;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Subtle glow */
+}
+
+.landing-page p {
+  font-size: 1.3em;
+  color: var(--color-secondary);
+  z-index: 10;
+  position: relative;
+}
+
+.instruction {
+  margin-top: 30px;
+  padding: 12px 25px;
+  border: 1px solid var(--color-primary); /* Highlight with primary color */
+  border-radius: 50px; /* Pill shape */
+  background-color: var(--color-card-bg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: transform 0.3s;
+  z-index: 10;
+  position: relative;
+}
+
+.instruction:hover {
+  transform: scale(1.05);
+}
+
+/* --- Neural Network / Connecting Dots --- */
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(20px, 30px);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+}
+
+/* Base Node - We use multiple pseudo-elements attached to a single wrapper */
+.animated-neural-network {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  opacity: 0.2; /* Subtle background element */
+}
+
+.animated-neural-network::before,
+.animated-neural-network::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 15px var(--color-primary);
+  z-index: 5;
+}
+
+/* Node 1 */
+.animated-neural-network::before {
+  width: 15px;
+  height: 15px;
+  top: 10%;
+  left: 10%;
+  animation: float 15s infinite ease-in-out;
+}
+
+/* Node 2 */
+.animated-neural-network::after {
+  width: 10px;
+  height: 10px;
+  bottom: 5%;
+  right: 5%;
+  animation: float 12s infinite reverse ease-in-out;
+}
+
+/* Add a third, less obvious node/connection line directly to the wrapper */
+.animated-neural-network {
+  /* Existing styles above... */
+  border-radius: 50%;
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  animation: float 20s infinite linear;
+}

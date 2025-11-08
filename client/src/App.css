@@ -1,0 +1,72 @@
+/* Custom Properties (Variables) remain for consistency */
+:root {
+  --color-primary: #3182ce;
+  --color-secondary: #4a5568;
+  --color-background: #f8faff;
+  --color-card-bg: #ffffff;
+  --color-border: #e2e8f0;
+  --shadow-lift: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-secondary);
+  line-height: 1.6;
+  min-height: 100vh;
+
+  /* --- NEW: Background Animation --- */
+  overflow-x: hidden;
+  background-image: linear-gradient(
+    135deg,
+    #e0f2ff 0%,
+    #ffffff 50%,
+    #e0f2ff 100%
+  );
+  background-size: 200% 200%;
+  animation: backgroundPan 30s ease infinite;
+}
+
+@keyframes backgroundPan {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.App {
+  /* No more padding here, allowing content to stretch */
+  min-height: 100vh;
+}
+
+/* We will remove the main-content-wrapper for the full-page experience */
+.full-page-container {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Ensure the full-page components stay visible */
+  z-index: 10;
+  position: relative;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-secondary);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 40px 0;
+}

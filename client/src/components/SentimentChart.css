@@ -1,0 +1,39 @@
+.sentiment-chart-container {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: var(--color-card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sentiment-chart-container h3 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Tooltip Styles for Recharts */
+.custom-tooltip {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-date {
+  font-size: 0.9em;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.tooltip-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.tooltip-score {
+  margin-top: 5px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
