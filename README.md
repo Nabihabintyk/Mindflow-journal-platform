@@ -20,6 +20,26 @@ Whether you want to track personal growth, reflect on daily events, or organize 
 ---
 
 ## Project Structure
+mindflow-journal-platform/
+│
+├─ client/                # React frontend
+│   ├─ src/
+│   │   ├─ components/    # React components (Header, JournalList, SentimentChart, etc.)
+│   │   ├─ assets/        # Images, logos, icons
+│   │   ├─ App.js
+│   │   ├─ App.css
+│   │   └─ index.js
+│   └─ package.json        # Frontend dependencies
+│
+├─ server/                # Backend API
+│   ├─ index.js            # Main server file
+│   ├─ routes/             # API routes (entries, authentication, etc.)
+│   ├─ controllers/        # Business logic for routes
+│   ├─ models/             # Database models
+│   └─ package.json        # Backend dependencies
+│
+├─ autoUpdateReadme.js     # Optional: script to auto-update README
+└─ README.md               # Project documentation
 
 ---
 
