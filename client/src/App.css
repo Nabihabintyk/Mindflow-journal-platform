@@ -70,3 +70,18 @@ hr {
   background-color: var(--color-border);
   margin: 40px 0;
 }
+body {
+  padding-top: 70px; /* prevents content from hiding behind the header */
+}
+.sentiment-lists ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.sentiment-lists li {
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  background-color: #f8f8f8;
+}

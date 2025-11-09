@@ -1,116 +1,174 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
-import "./SentimentChart.css";
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
-// Custom Tooltip component to show more info
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    // payload can contain multiple lines (positive and negative), we grab the original data from the first one
-    const entryData = payload.find(
-      (p) =>
-        p.dataKey === "sentiment_score_positive" ||
-        p.dataKey === "sentiment_score_negative"
-    )?.payload;
-
-    // Safety check
-    if (!entryData) return null;
-
-    return (
-      <div className="custom-tooltip">
-        <p className="tooltip-date">{new Date(label).toLocaleDateString()}</p>
-        <p className="tooltip-title">**{entryData.title}**</p>
-        {/* Display the actual, single sentiment score */}
-        <p className="tooltip-score">
-          Sentiment: **{entryData.sentiment_score.toFixed(4)}**
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function SentimentChart({ entries }) {
-  // 1. Prepare Data: Sort and format for chart
-  const chartData = [...entries]
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .map((entry) => ({
-      ...entry,
-      date: new Date(entry.date).getTime(), // Use timestamp for linear X-axis
-      // 2. Prepare Data: Duplicate sentiment score for positive and negative lines
-      sentiment_score_positive:
-        entry.sentiment_score >= 0 ? entry.sentiment_score : 0,
-      sentiment_score_negative:
-        entry.sentiment_score < 0 ? entry.sentiment_score : 0,
+  const [animatedData, setAnimatedData] = useState([0, 0, 0]);
 
-      // This is needed for the original single-line tooltip logic
-      sentiment_score: entry.sentiment_score,
-    }));
+  useEffect(() => {
+    const POSITIVE_THRESHOLD = 0.2;
+    const NEGATIVE_THRESHOLD = -0.2;
+
+    const getSentiment = (score) => {
+      if (score >= POSITIVE_THRESHOLD) return "positive";
+      if (score <= NEGATIVE_THRESHOLD) return "negative";
+      return "neutral";
+    };
+
+    const positiveEntries = entries.filter(
+      (e) => getSentiment(e.sentiment_score) === "positive"
+    );
+    const negativeEntries = entries.filter(
+      (e) => getSentiment(e.sentiment_score) === "negative"
+    );
+    const neutralEntries = entries.filter(
+      (e) => getSentiment(e.sentiment_score) === "neutral"
+    );
+
+    const targetData = [
+      positiveEntries.length,
+      negativeEntries.length,
+      neutralEntries.length,
+    ];
+
+    // Animate bars gradually
+    const duration = 1500;
+    const fps = 60;
+    const steps = Math.ceil((duration / 1000) * fps);
+    let step = 0;
+
+    const interval = setInterval(() => {
+      step++;
+      const progress = step / steps;
+
+      const easeOutBounce = (t) => {
+        const n1 = 7.5625;
+        const d1 = 2.75;
+        if (t < 1 / d1) return n1 * t * t;
+        else if (t < 2 / d1) return n1 * (t -= 1.5 / d1) * t + 0.75;
+        else if (t < 2.5 / d1) return n1 * (t -= 2.25 / d1) * t + 0.9375;
+        else return n1 * (t -= 2.625 / d1) * t + 0.984375;
+      };
+
+      const easedProgress = easeOutBounce(progress);
+      setAnimatedData(
+        targetData.map((value) => Math.round(value * easedProgress))
+      );
+
+      if (step >= steps) clearInterval(interval);
+    }, 1000 / fps);
+
+    return () => clearInterval(interval);
+  }, [entries]);
+
+  // Prepare lists
+  const POSITIVE_THRESHOLD = 0.2;
+  const NEGATIVE_THRESHOLD = -0.2;
+  const getSentimentOutside = (score) => {
+    if (score >= POSITIVE_THRESHOLD) return "positive";
+    if (score <= NEGATIVE_THRESHOLD) return "negative";
+    return "neutral";
+  };
+
+  const positiveEntries = entries.filter(
+    (e) => getSentimentOutside(e.sentiment_score) === "positive"
+  );
+  const negativeEntries = entries.filter(
+    (e) => getSentimentOutside(e.sentiment_score) === "negative"
+  );
+  const neutralEntries = entries.filter(
+    (e) => getSentimentOutside(e.sentiment_score) === "neutral"
+  );
+
+  const data = {
+    labels: ["Positive", "Negative", "Neutral"],
+    datasets: [
+      {
+        label: "Number of Entries",
+        data: animatedData,
+        backgroundColor: ["#A8E6CF", "#FF8B94", "#D3D3D3"], // pastel colors
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    animation: { duration: 0 },
+    plugins: {
+      legend: { position: "top" },
+      title: { display: true, text: "Sentiment Analysis" },
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 1 } },
+    },
+  };
+
+  // Custom pastel list card styling
+  const listCardStyle = (bgColor) => ({
+    backgroundColor: bgColor,
+    padding: "12px 16px",
+    borderRadius: "10px",
+    marginBottom: "12px",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+    fontFamily: "'Poppins', sans-serif",
+    color: "#333333",
+  });
 
   return (
-    <div className="sentiment-chart-container">
-      <h3>Sentiment Trend Over Time</h3>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart
-          data={chartData}
-          margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
-          animationDuration={1500}
-          animationEasing="ease-in-out"
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+    <div style={{ maxWidth: "700px", margin: "0 auto", padding: "20px" }}>
+      <Bar data={data} options={options} />
 
-          {/* Y-Axis: Sentiment Score (-1.0 to 1.0) */}
-          <YAxis domain={[-1.0, 1.0]} tickCount={5} stroke="#718096" />
+      <div style={{ marginTop: "20px" }}>
+        {positiveEntries.length > 0 && (
+          <div style={listCardStyle("#A8E6CF")}>
+            <h3 style={{ color: "#2E7D32" }}>Positive Entries</h3>
+            <ul style={{ paddingLeft: "20px" }}>
+              {positiveEntries.map((e) => (
+                <li key={e.id}>{e.title}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-          {/* X-Axis: Time/Date */}
-          <XAxis
-            dataKey="date"
-            type="number"
-            domain={["dataMin", "dataMax"]}
-            tickFormatter={(unixTime) =>
-              new Date(unixTime).toLocaleDateString()
-            }
-            stroke="#718096"
-          />
+        {negativeEntries.length > 0 && (
+          <div style={listCardStyle("#FF8B94")}>
+            <h3 style={{ color: "#C62828" }}>Negative Entries</h3>
+            <ul style={{ paddingLeft: "20px" }}>
+              {negativeEntries.map((e) => (
+                <li key={e.id}>{e.title}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-          <Tooltip content={<CustomTooltip />} />
-
-          {/* CRITICAL: Reference line at Y=0 (Neutral) */}
-          <ReferenceLine y={0} stroke="#a0aec0" strokeDasharray="5 5" />
-
-          {/* 1. POSITIVE/NEUTRAL LINE: Only shows score >= 0 */}
-          <Line
-            type="monotone"
-            dataKey="sentiment_score_positive"
-            stroke="#3182ce" /* BLUE */
-            strokeWidth={3}
-            dot={{ r: 4 }}
-            activeDot={{ r: 8 }}
-            isAnimationActive={true}
-            connectNulls={true} /* Important for continuity */
-          />
-
-          {/* 2. NEGATIVE LINE: Only shows score < 0 */}
-          <Line
-            type="monotone"
-            dataKey="sentiment_score_negative"
-            stroke="#e53e3e" /* RED */
-            strokeWidth={3}
-            dot={{ r: 4 }}
-            activeDot={{ r: 8 }}
-            isAnimationActive={true}
-            connectNulls={true} /* Important for continuity */
-          />
-        </LineChart>
-      </ResponsiveContainer>
+        {neutralEntries.length > 0 && (
+          <div style={listCardStyle("#D3D3D3")}>
+            <h3 style={{ color: "#555555" }}>Neutral Entries</h3>
+            <ul style={{ paddingLeft: "20px" }}>
+              {neutralEntries.map((e) => (
+                <li key={e.id}>{e.title}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

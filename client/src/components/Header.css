@@ -1,108 +1,223 @@
+/* ------------------------------------------------------------------ */
+/* BASE LAYOUT AND Z-INDEX FIX */
+/* ------------------------------------------------------------------ */
 .app-header {
-  background-color: var(--color-card-bg);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 15px 0;
-  margin-bottom: 0;
+  background-color: #3f51b5; /* Deep Blue background */
+  padding: 10px 20px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
-  z-index: 50;
+  /* CRITICAL: Ensures the dropdown is visible above all other content */
+  z-index: 100;
 }
 
 .header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* NEW: Wrapper for the logo to make it clickable */
 .logo-wrapper {
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  user-select: none;
+}
+
+/* Style for the restored image logo (Circular) */
+.header-logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .logo-text {
-  font-size: 1.8em;
-  font-weight: 800;
-  color: var(--color-primary);
-  letter-spacing: -0.5px;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-/* --- New Menu Styles --- */
-.menu-icon {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 30px;
-  height: 25px;
-  cursor: pointer;
-  z-index: 60;
-}
-
-.menu-icon div {
-  width: 100%;
-  height: 3px;
-  background-color: var(--color-secondary);
-  border-radius: 1px;
-  transition: all 0.3s linear;
-  transform-origin: 1px;
-}
-
-/* Hamburger to X transition */
-.menu-icon.open .line1 {
-  transform: rotate(45deg);
-}
-.menu-icon.open .line2 {
-  opacity: 0;
-  transform: translateX(-20px);
-}
-.menu-icon.open .line3 {
-  transform: rotate(-45deg);
-}
-
+/* Base style for the navigation menu (desktop) */
 .nav-menu {
   display: flex;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 300px;
-  background-color: var(--color-card-bg);
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in-out;
-  flex-direction: column;
-  padding-top: 80px;
-  z-index: 55;
+  gap: 20px;
+  align-items: center;
 }
 
-.nav-menu.open {
-  transform: translateX(0);
+/* ------------------------------------------------------------------ */
+/* 1. FONT AND TEXT STYLING */
+/* ------------------------------------------------------------------ */
+
+.nav-menu {
+  font-family: "Poppins", sans-serif;
 }
 
-/* Styles applied to both <a> (if used) and <button> for link appearance */
-.nav-menu a,
-.nav-menu button {
-  color: var(--color-secondary);
-  text-decoration: none;
-  font-size: 1.2em;
+/* Styles for top-level links and the toggle button */
+.nav-link,
+.dropdown-toggle {
+  font-family: inherit;
   font-weight: 500;
-  padding: 15px 30px;
-  transition: background-color 0.2s;
-  border-bottom: 1px solid var(--color-border);
+  color: #f0f4f8;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
 
-  /* Resetting button defaults to make it look like a link */
+.nav-link:hover,
+.dropdown-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. ICON AND COLOR MATCHING (SVG Icons) */
+/* ------------------------------------------------------------------ */
+
+/* Primary Icons (New Entry, Dashboard) - Purple Accent */
+.primary-icon {
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  color: #8d82f7;
+  transition: color 0.2s;
+}
+
+/* Secondary Icons (View Entries, Sentiment Chart) - Green Accent */
+.secondary-icon {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  color: #55c479;
+  transition: color 0.2s;
+}
+
+/* Hover effect on primary items */
+.nav-link:hover .primary-icon,
+.dropdown-toggle:hover .primary-icon {
+  color: #55c479;
+}
+
+/* Hover effect on secondary items (inside dropdown) */
+.dropdown-item:hover .secondary-icon {
+  color: #8d82f7;
+}
+
+/* Arrow icon styling */
+.arrow-icon {
+  margin-left: 5px;
+  width: 14px;
+  height: 14px;
+  color: #f0f4f8;
+}
+
+/* ------------------------------------------------------------------ */
+/* DROPDOWN SPECIFIC STYLES */
+/* ------------------------------------------------------------------ */
+
+.nav-dropdown {
+  position: relative;
+}
+
+/* Make dropdown toggle look like a link */
+.dropdown-toggle {
   background: none;
   border: none;
-  text-align: left;
-  width: 100%;
   cursor: pointer;
 }
 
-.nav-menu a:hover,
-.nav-menu button:hover {
-  background-color: var(--color-background);
-  color: var(--color-primary);
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 180px;
+  background-color: #3f51b5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 10;
+  display: none;
+  padding: 5px 0;
+}
+
+.dropdown-content.open {
+  display: block;
+}
+
+.dropdown-item {
+  color: #f0f4f8;
+  padding: 10px 15px;
+  white-space: nowrap;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(141, 130, 247, 0.15);
+}
+
+/* ------------------------------------------------------------------ */
+/* MOBILE / HAMBURGER MENU STYLES */
+/* ------------------------------------------------------------------ */
+
+/* Hamburger menu styles (visible on mobile) */
+.menu-icon {
+  display: none; /* Hidden on desktop */
+  cursor: pointer;
+  /* Styles for the lines go here if needed */
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-menu {
+    /* Start hidden and absolute for mobile */
+    display: none;
+    position: absolute;
+    top: 60px; /* Adjust based on header height */
+    right: 0;
+    width: 100%;
+    background-color: #3f51b5;
+    flex-direction: column;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-link,
+  .dropdown-toggle {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Adjust dropdown positioning for full-width mobile menu */
+  .nav-dropdown {
+    width: 100%;
+  }
+
+  .dropdown-content {
+    position: static; /* Stack vertically instead of absolute positioning */
+    width: 100%;
+    box-shadow: none;
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.1
+    ); /* Slightly darker background for nested items */
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .dropdown-item {
+    padding-left: 30px; /* Indent nested items */
+  }
 }

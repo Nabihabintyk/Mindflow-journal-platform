@@ -3,13 +3,14 @@ import "./App.css";
 import Header from "./components/Header";
 import NotebookJournal from "./components/NotebookJournal";
 import Dashboard from "./components/Dashboard";
-import LandingPage from "./components/LandingPage"; // Added LandingPage import
+import LandingPage from "./components/LandingPage";
+import JournalList from "./components/JournalList";
+import SentimentChart from "./components/SentimentChart";
 
 function App() {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshToggle, setRefreshToggle] = useState(false);
-  // Initial state is set to 'landing' so the animation screen shows first.
   const [activeComponent, setActiveComponent] = useState("landing");
 
   const fetchEntries = useCallback(async () => {
@@ -19,6 +20,7 @@ function App() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+      console.log("Fetched entries:", data); // <- check this
       setEntries(data);
     } catch (error) {
       console.error("Error fetching entries:", error);
@@ -35,18 +37,30 @@ function App() {
 
   return (
     <div className="App">
-      {/* Header component handles navigation state */}
       <Header setActiveComponent={setActiveComponent} />
 
       <div className="full-page-container">
-        {/* Conditional rendering based on activeComponent state */}
-
+        {/* LANDING PAGE */}
         {activeComponent === "landing" && <LandingPage />}
 
+        {/* NEW ENTRY PAGE */}
         {activeComponent === "journal" && (
           <NotebookJournal refreshList={refreshList} />
         )}
 
+        {/* ENTRIES PAGE */}
+        {activeComponent === "entries" && (
+          <JournalList
+            entries={entries}
+            handleDelete={() => {}}
+            refreshList={refreshList}
+          />
+        )}
+
+        {/* SENTIMENT CHART PAGE */}
+        {activeComponent === "chart" && <SentimentChart entries={entries} />}
+
+        {/* LEGACY DASHBOARD PAGE (optional, if you still want it) */}
         {activeComponent === "dashboard" && (
           <Dashboard
             entries={entries}
