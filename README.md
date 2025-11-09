@@ -31,12 +31,6 @@ Whether you want to track personal growth, reflect on daily events, or organize 
 
 ---
 
-## Screenshots
-
-*(Optional: Add screenshots of your app here for better visualization)*
-
----
-
 ## How to Run
 
 ### Clone the repository
