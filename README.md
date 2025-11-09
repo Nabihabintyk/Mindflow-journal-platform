@@ -1,35 +1,39 @@
-# ✍️ MindFlow: A Sentimental Journaling Platform
-## Full-Stack Application for Mood Tracking and Data Visualization
-Welcome to the repository for **MindFlow**, a full-stack application I am building from scratch to help users track their mental well-being through daily journaling and mood analysis.
-This project is designed as an intensive **5-week sprint** to solidify my full-stack development skills using modern technologies and directly apply concepts learned during CS50x's Python and SQL modules. As a fully deployed, working application, this will be the capstone piece on my CV!
----
-## ✨ Key Features & Skill Showcase
-* **Daily Journaling:** Simple, clean UI built with **ReactJS** for capturing text and selecting a mood. This demonstrates front-end component architecture.
-* **Secure Storage:** Entries are sent via a **REST API** to a **Python Flask backend** and securely stored in an **SQLite database**. This proves my ability to handle full-stack communication (CRUD).
-* **Mood Visualization:** A dedicated dashboard displays mood trends over time using charting libraries, showcasing effective **data analysis and presentation**.
-* **Real-World Relevance:** The project tackles a common problem in the highly relevant Health/Wellness tech domain.
+# MindFlow Journal Platform
 
----
+A full-stack journal app built with React (frontend) and Node.js (backend) that tracks your journal entries, analyzes sentiment, and displays animated sentiment charts.
 
-## 🛠 Technology Stack
+## Features
+- Add, edit, and delete journal entries
+- Sentiment analysis: Positive, Negative, Neutral
+- Animated sentiment chart visualization
+- Organized past entries
+- Responsive design with pastel, calm UI
+- Dashboard to view all entries
 
-| Role | Technology | Focus Skill |
-| :--- | :--- | :--- |
-| **Frontend** | ReactJS | Component-based UI, State Management |
-| **Backend** | Python Flask | API Development, Routing, Application Logic |
-| **Database** | SQLite | SQL Querying, Data Persistence (CRUD) |
-| **Deployment** | TBD (e.g., Vercel/Heroku) | CI/CD Pipeline, Live Application Management |
+## Project Structure
+- `client/`: React frontend
+- `server/`: Backend API
+- `autoUpdateReadme.js`: This script to auto-update README
 
-## 📅 Development Roadmap
+## Tech Stack
+- React.js, Chart.js
+- Node.js, Express
+- Git/GitHub for version control
 
-This project is following a disciplined 5-week sprint. The detailed weekly plan, including specific CS50x module integration points and milestones, is outlined in the project plan document:
+## How to Run
+1. Clone the repo: `git clone https://github.com/Nabihabintyk/Mindflow-journal-platform.git`
+2. Frontend: 
+   ```bash
+   cd client
+   npm install
+   npm start
+   ```
+3. Backend:
+   ```bash
+   cd server
+   npm install
+   node index.js
+   ```
 
-* ➡️ **[README\_PLAN.txt](README_PLAN.txt)**: Access the full 5-week sprint schedule and technical breakdown here.
-
----
-
-## 🚀 Status
-
-**Currently in Week 1/2:** **Frontend/Backend Setup.** The focus is on establishing the initial React input form and connecting the core Flask API with the SQLite database.
-
-> *Note: This project is under active development. Check the commit history for progress!*
+## License
+MIT
